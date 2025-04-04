@@ -20,7 +20,11 @@ jobs:
     name: "Build GITS on ${{ matrix.os }}"
 
     steps:
-      - name: Build (SwiftShader)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Build GITS
         shell: bash -el {0}
         run: |
           # https://github.com/intel/gits/blob/main/docs/building.md
