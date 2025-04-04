@@ -21,13 +21,14 @@ jobs:
 
     steps:
       - name: Build (SwiftShader)
+        shell: bash -el {0}
         run: |
           # https://github.com/intel/gits/blob/main/docs/building.md
           git clone https://github.com/intel/gits
           cd gits
           git lfs pull
           python -m venv ../venv
-          call ../venv/Scripts/activate.bat
+          ../venv/Scripts/activate.bat
           pip install -r requirements.txt
           mkdir build
           cd build
