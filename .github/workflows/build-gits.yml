@@ -1,0 +1,36 @@
+name: Build GITS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest ]
+
+    runs-on: ${{ matrix.os }}
+    name: "Build GITS on ${{ matrix.os }}"
+
+    steps:
+      - name: Build (SwiftShader)
+        run: |
+          # https://github.com/intel/gits/blob/main/docs/building.md
+          git clone https://github.com/intel/gits
+          cd gits
+          git lfs pull
+          python -m venv ../venv
+          call ../venv/Scripts/activate.bat
+          pip install -r requirements.txt
+          mkdir build
+          cd build
+          cmake -A x64 ../
+          cmake --build . --config Release
+          cmake --install . --config Release --prefix ../../gits-install
